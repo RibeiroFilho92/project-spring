@@ -13,21 +13,21 @@ public class Category implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer ID;
+	private Long ID;
 	private String name;
 	
 	public Category() {}
 	
-	public Category(Integer ID, String name) {
+	public Category(Long ID, String name) {
 		this.ID = ID;
 		this.name = name;
 	}
 
-	public Integer getID() {
+	public Long getID() {
 		return ID;
 	}
 
-	public void setID(Integer iD) {
+	public void setID(Long iD) {
 		ID = iD;
 	}
 
