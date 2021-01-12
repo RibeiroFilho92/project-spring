@@ -8,33 +8,39 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
 @Entity
-public class Category implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class Product implements Serializable {
 	
-	@ManyToMany(mappedBy = "categories")
-	List<Product> products = new ArrayList<>();
+	private static final long serialVersionUID = 1L;
+
+	@ManyToMany 
+	@JoinTable(name = "product_category", 
+			   joinColumns = @JoinColumn(name = "product_id"),
+			   inverseJoinColumns = @JoinColumn(name = "category_id")) 
+	private List<Category> categories = new ArrayList<> ();
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long ID;
 	private String name;
+	private Double price;
 	
-	public Category() {}
-	
-	public Category(Long ID, String name) {
-		this.ID = ID;
+	public Product() {}
+
+	public Product(String name, Double price) {
 		this.name = name;
+		this.price = price;
 	}
 
-	public Long getID() {
-		return ID;
+	public List<Category> getCategories() {
+		return categories;
 	}
 
-	public void setID(Long iD) {
-		ID = iD;
+	public void setCategories(List<Category> categories) {
+		this.categories = categories;
 	}
 
 	public String getName() {
@@ -44,13 +50,17 @@ public class Category implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	public List<Product> getProducts() {
-		return products;
+
+	public Double getPrice() {
+		return price;
 	}
 
-	public void setProducts(List<Product> products) {
-		this.products = products;
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+
+	public Long getID() {
+		return ID;
 	}
 
 	@Override
@@ -69,7 +79,7 @@ public class Category implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Category other = (Category) obj;
+		Product other = (Product) obj;
 		if (ID == null) {
 			if (other.ID != null)
 				return false;
