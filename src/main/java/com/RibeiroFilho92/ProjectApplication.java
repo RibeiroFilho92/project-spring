@@ -7,12 +7,17 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.RibeiroFilho92.domain.Address;
 import com.RibeiroFilho92.domain.Category;
 import com.RibeiroFilho92.domain.City;
+import com.RibeiroFilho92.domain.Client;
 import com.RibeiroFilho92.domain.Product;
 import com.RibeiroFilho92.domain.State;
+import com.RibeiroFilho92.domain.enums.TypeClient;
+import com.RibeiroFilho92.repositories.AddressRepository;
 import com.RibeiroFilho92.repositories.CategoryRepository;
 import com.RibeiroFilho92.repositories.CityRepository;
+import com.RibeiroFilho92.repositories.ClientRepository;
 import com.RibeiroFilho92.repositories.ProductRepository;
 import com.RibeiroFilho92.repositories.StateRepository;
 
@@ -27,10 +32,16 @@ public class ProjectApplication implements CommandLineRunner {
 	
 	@Autowired
 	private StateRepository repThree;
-	
+
 	@Autowired
 	private CityRepository repFour;
-
+	
+	@Autowired
+	private ClientRepository repFive;
+	
+	@Autowired
+	private AddressRepository repSix;
+	
 	public static void main(String[] args) {
 		SpringApplication.run(ProjectApplication.class, args);
 	}
@@ -64,10 +75,20 @@ public class ProjectApplication implements CommandLineRunner {
 		p3.getCategories().addAll(Arrays.asList(c1));
 		p4.getCategories().addAll(Arrays.asList(c2));
 		
+		Client cli1 = new Client("Bill Gates", "bg@microsoft.com", "123456789", TypeClient.NATURALPERSON);
+		
+		Address ad1 = new Address("N Andrews Ave", "6750", "33309", city1, cli1);
+		Address ad2 = new Address("Walter-Gropius-Straße", "5", "85716", city2, cli1);
+		
+		cli1.getPhones().addAll(Arrays.asList("9123512658", "32157841"));
+		cli1.getAddresses().addAll(Arrays.asList(ad1, ad2));
+		
 		repOne.saveAll(Arrays.asList(c1, c2));
 		repTwo.saveAll(Arrays.asList(p1, p2, p3, p4));
 		repThree.saveAll(Arrays.asList(st1, st2));
 		repFour.saveAll(Arrays.asList(city1, city2, city3));
+		repFive.saveAll(Arrays.asList(cli1));
+		repSix.saveAll(Arrays.asList(ad1, ad2));
 	}
 
 }
